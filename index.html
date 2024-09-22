@@ -1,0 +1,3200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resilience Indicators</title>
+    <style>
+    #resilienceTable {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+    #resilienceTable td, #resilienceTable th {
+        border: 1px solid #ddd;
+        padding: 8px;  
+        }
+
+    #resilienceTable tr:nth-child(even){background-color: #f2f2f2;}
+
+    #resilienceTable tr:hover {background-color: #ddd;}
+
+    #resilienceTable th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #020767;
+        color: white;
+        }
+    
+
+
+        p { margin: 0 0 1.5em; background-color: #89b9e8;}
+
+
+        .indicator-types{padding-bottom:10px; display:block;}
+        
+        .indicator-model{padding-bottom:10px; display:block;}
+        
+        .indicator-goal{padding-bottom:10px; display:block;}
+        
+        .indicator-method{padding-bottom:10px; display:block;}
+
+        .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+    
+
+input[type="radio"] {
+    height: 1.2rem;
+    width: 1.2rem;
+    margin-right: 0.5rem;
+}
+
+#accent {
+    accent-color: var(--checked-color);
+}
+
+.custom-radio {
+    /* hiding browser el */
+    appearance: none;
+    /* Safari support */
+    -webkit-appearance: none;
+    border: 0.2rem solid #fff;
+    background-color: var(--bg-color);
+    border-radius: 50%;
+}
+
+/* keyboard navigation focus appearance */
+.custom-radio:focus-visible {
+    outline-offset: 0;
+}
+
+#box-shadow {
+    box-shadow: 0 0 0 1px var(--color);
+}
+
+#box-shadow:hover {
+    border-width: 0;
+}
+
+#box-shadow:checked {
+    box-shadow: 0 0 0 1px var(--checked-color);
+    background-color: var(--checked-color);
+    border-width: 0.2rem;
+}
+
+#outline {
+    outline: 1px solid var(--color);
+}
+
+#outline:hover {
+    outline-color: var(--checked-color);
+}
+
+#outline:checked {
+    outline-color: var(--checked-color);
+    background-color: var(--checked-color);
+
+    animation: outline-checked;
+    animation-duration: 0.1s;
+    animation-iteration-count: 4;
+    animation-direction: alternate;
+    animation-timing-function: linear;
+}
+
+@keyframes outline-checked {
+    0% {
+        outline-offset: 0;
+    }
+
+    100% {
+        outline-offset: -0.2rem;
+    }
+}
+
+
+</style>
+
+</head>
+<body>
+    <p></p>
+    <embed src="https://upload.wikimedia.org/wikipedia/commons/5/52/Aarhus_University_logo.svg"  width="300" height="100"
+    type="image/svg+xml"
+    pluginspage="http://www.adobe.com/svg/viewer/install/" /> 
+    <img src="https://rea.ec.europa.eu/sites/default/files/styles/oe_theme_medium_2x_no_crop/public/2021-04/EN%20Co-funded%20by%20the%20EU_POS.jpg?itok=3-NTh0go" alt="EU logo"  height="100">
+    <img src="https://accurateproject.eu/wp-content/uploads/2024/03/Accurate-logo.webp" alt="ACCURATE logo" height="100">
+
+    <p></p>
+    
+
+
+    
+
+    <div class="filter-container">
+    <form>
+        <p><b>Indicator Types</b></p> 
+        <input type="radio" id="fail-safe" name = "indicator-types" onchange="getCheckedCheckboxIds()">
+        <label id="fail-safe-text" for="propertyCheckbox">Fail-Safe by Design</label>
+
+        <input type="radio" id="redundancy" name = "indicator-types" onchange="getCheckedCheckboxIds()">
+        <label id="redundancy-text" for="propertyCheckbox"> Redundancy</label>
+        
+        <input type="radio" id="reconfigurability" name = "indicator-types" onchange="getCheckedCheckboxIds()">
+        <label id="reconfigurability-text" for="propertyCheckbox"> Reconfigurability</label>
+        
+        <input type="radio" id="modularity" name = "indicator-types" onchange="getCheckedCheckboxIds()">
+        <label id="modularity-text" for="propertyCheckbox"> Modularity/Mobility/Distributability</label>
+        
+        <input type="radio" id="repurposability" name = "indicator-types" onchange="getCheckedCheckboxIds()">
+        <label id="repurposability-text" for="propertyCheckbox"> Repurposability</label>
+        
+        <input type="radio" id="flexibility" name = "indicator-types" onchange="getCheckedCheckboxIds()">
+        <label id="flexibility-text" for="propertyCheckbox"> Flexibility</label>
+        
+        <input type="radio" id="controllability" name = "indicator-types"  onchange="getCheckedCheckboxIds()">
+        <label id="controllability-text" for="propertyCheckbox"> Controllability</label>
+        
+        <input type="radio" id="reliability" name = "indicator-types" onchange="getCheckedCheckboxIds()">
+        <label id="reliability-text" for="propertyCheckbox"> Reliability</label>
+        
+        <input type="radio" id="recoverability" name = "indicator-types" onchange="getCheckedCheckboxIds()">
+        <label id="recoverability-text" for="propertyCheckbox"> Recoverability/Restorability</label>
+
+        <input type="radio" id="rapidity" name = "indicator-types" onchange="getCheckedCheckboxIds()">
+        <label id="rapidity-text" for="propertyCheckbox"> Rapidity</label>
+
+        <input type="radio" id="robustness" name = "indicator-types" onchange="getCheckedCheckboxIds()">
+        <label id="robustness-text" for="propertyCheckbox"> Robustness</label>
+
+        <input type="radio" id="resourcefulness" name = "indicator-types" onchange="getCheckedCheckboxIds()">
+        <label id="resourcefulness-text" for="propertyCheckbox"> Resourcefulness</label>
+
+        <input type="radio" id="sustainability" name = "indicator-types" onchange="getCheckedCheckboxIds()">
+        <label id="sustainability-text" for="propertyCheckbox"> Sustainability</label>
+
+        <input type="radio" id="circularity" name = "indicator-types" onchange="getCheckedCheckboxIds()">
+        <label id="circularity-text" for="propertyCheckbox"> Circularity</label>
+
+        <input type="radio" id="all-indicator-types" name = "indicator-types" onchange="getCheckedCheckboxIds()">
+        <label id="all-text" for="propertyCheckbox"> All</label>
+
+    <p></p>
+    </form>
+
+    <form>
+        <p><b>Indicator Model</b></p> 
+        <input type="radio" id="analytical" name="indicator-model" onchange="getCheckedCheckboxIds()">
+        <label id="analytical-text" for="propertyCheckbox"> Analytical</label>
+
+        <input type="radio" id="empirical" name="indicator-model" onchange="getCheckedCheckboxIds()">
+        <label id="empirical-text" for="propertyCheckbox"> Empirical</label>
+
+        <input type="radio" id="simulation" name="indicator-model" onchange="getCheckedCheckboxIds()">
+        <label id="simulation-text" for="propertyCheckbox"> Simulation/Optimization</label>
+
+        <input type="radio" id="all-indicator-model" name = "indicator-model" onchange="getCheckedCheckboxIds()">
+        <label id="all-text" for="propertyCheckbox"> All</label>
+        <p></p>
+    </form>
+
+    <form>
+        <p><b>Indicator Goal</b></p> 
+        <input type="radio" id="prevention" name="indicator-goal" onchange="getCheckedCheckboxIds()">
+        <label id="prevention-text" for="propertyCheckbox"> Prevention</label>
+
+        <input type="radio" id="detection" name="indicator-goal" onchange="getCheckedCheckboxIds()">
+        <label id="detection-text" for="propertyCheckbox"> Detection</label>
+
+        <input type="radio" id="all-indicator-goal" name = "indicator-goal" onchange="getCheckedCheckboxIds()">
+        <label id="all-text" for="propertyCheckbox"> All</label>
+
+        <p></p>
+    </form>
+
+    <form>
+        <p><b>Indicator Method</b></p> 
+        <input type="radio" id="qualitative" name="indicator-method" onchange="getCheckedCheckboxIds()">
+        <label id="qualitative-text" for="propertyCheckbox"> Qualitative</label>
+
+        <input type="radio" id="quantitative" name="indicator-method" onchange="getCheckedCheckboxIds()">
+        <label id="quantitative-text" for="propertyCheckbox"> Quantitative</label>
+
+        <input type="radio" id="all-indicator-method" name = "indicator-method" onchange="getCheckedCheckboxIds()">
+        <label id="all-text" for="propertyCheckbox"> All</label>
+
+        <p></p>
+    </form>
+
+    <p><b>Collapse Taxonomy Columns </b></p> 
+    <!-- Rounded switch -->
+    <label class="switch">
+        <input type="checkbox" onchange="toggleColumns()">
+        <span class="slider round"></span>
+    </label>
+    </div>
+
+    <p></p>
+
+
+    <table id="resilienceTable">
+        <thead>
+            <tr>
+                <th>Indicator</th>
+                <th>Description & Working Principles</th>
+                <th>Fail-Safe by Design</th>
+                <th>Redundancy</th>
+                <th>Reconfigurability</th>
+                <th>Modularity/Mobility/Distributability</th>
+                <th>Repurposability</th>
+                <th>Flexibility</th>
+                <th>Controllability</th>
+                <th>Reliability</th>
+                <th>Recoverability/Restorability</th>
+                <th>Rapidity</th>
+                <th>Robustness</th>
+                <th>Resourcefulness</th>
+                <th>Sustainability</th>
+                <th>Circularity</th>
+                <th>Analytical</th>
+                <th>Empirical</th>
+                <th>Simulation/Optimization</th>
+                <th>Prevention</th>
+                <th>Detection</th>
+                <th>Qualitative</th>
+                <th>Quantitative</th>
+                <th>Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)</th>
+                <th>Application & Scope</th>
+                <th>Source name</th>
+                <th>Journal</th>
+                <th>Authors</th>
+                <th>Source</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table rows will be appended here by JavaScript -->
+        </tbody>
+    </table>
+
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+<script src="jquery-3.7.1.min.js"></script>
+<script>
+
+// With the above scripts loaded, you can call `tippy()` with a CSS
+    // selector and a `content` prop:
+        tippy("#fail-safe-text", {
+            content: 'Fail-safe by design involves creating processes that can safely fail during extreme events, minimizing risks and harm to surroundings. It includes safe-fail approaches to adapt to new risks.',
+          });
+        tippy("#redundancy-text", {
+            content: 'Redundancy in disaster-resilient design involves duplicating or supplementing components to maintain system functionality during failures.!',
+          });
+          tippy("#reconfigurability-text", {
+            content: 'Reconfigurability in disaster-resilient design allows altering process flows using existing equipment for different arrangements or purposes. It enables adapting to disaster scenarios and normal operations by changing connectivities.',
+          });
+        tippy("#modularity-text", {
+            content: 'Modularity/Mobility/Distributability in disaster-resilient design involves using small, interconnected units that can be easily moved or distributed to enhance system flexibility and resilience.',
+          });
+          tippy("#repurposability-text", {
+            content: 'Repurposability in disaster-resilient design refers to the ability of a process to be quickly adapted for different products or purposes during emergencies.',
+          });
+        tippy("#flexibility-text", {
+            content: 'Flexibility in disaster-resilient design allows systems to operate effectively under varying conditions. It involves the ability to adjust processes, equipment, and operations to meet changing demands or unexpected events.',
+          });
+          tippy("#controllability-text", {
+            content: 'Controllability in disaster-resilient design focuses on steering system behavior from initial to final states using admissible controls. It addresses dynamic issues and trajectories, crucial for managing system responses to different disaster scenarios.',
+          });
+        tippy("#reliability-text", {
+            content: 'Reliability in disaster-resilient design refers to the ability of processes or components to function without failure. It involves assessing the probability of failure and mean time to failure under normal and extreme conditions.',
+          });
+          tippy("#recoverability-text", {
+            content: 'Recoverability/Restorability in disaster-resilient design pertains to a system\'s capacity to undergo corrective actions and restore normal or desirable operation post-disruption. It involves adaptive responses to return to pre-disruption or repurposed states efficiently.',
+          });
+        tippy("#rapidity-text", {
+            content: 'Rapidity in disaster-resilient design refers to the system\'s ability to meet priorities and goals promptly to contain losses, recover functionality, and prevent future disruptions.',
+          });
+          tippy("#robustness-text", {
+            content: 'Robustness in disaster-resilient design signifies the system\'s strength to withstand stress or demands without degradation. It relates to the system\'s absorptive capacity to handle disturbances effectively.!',
+          });
+        tippy("#resourcefulness-text", {
+            content: 'Resourcefulness in disaster-resilient design denotes a system\'s ability to deploy various resources effectively to maintain operations during disruptions. It involves utilizing materials, energy, technologies, and human resources efficiently to mitigate consequences, especially in supply chain disruptions.',
+          });
+          tippy("#sustainability-text", {
+            content: 'Sustainability refers to a system\'s ability to maintain a certain level, which can be in regards to social and production factors',
+          });
+        tippy("#circularity-text", {
+            content: 'Circularity refers to a system\'s ability to reuse/recycle products in its value chain!',
+          });
+          tippy("#analytical-text", {
+            content: 'An analytical indicator only requires values of certain variables and can be calculated from on equation',
+          });
+        tippy("#empirical-text", {
+            content: 'An empirical indicator are build on previous experiences, to create relevant relationships',
+          });
+        tippy("#simulation-text", {
+            content: 'A simulation/optimization needs to be run which can require an extensive number of variables and computing power',
+          });
+        tippy("#prevention-text", {
+            content: 'The indicator is a preventive measure, dealing in past and present, used to better the given system before a disruption occurs',
+          });
+          tippy("#detection-text", {
+            content: 'The indicator is a detection measure, dealing in the future, used to estimate the likehood of a certain disruption occuring',
+          });
+        tippy("#qualitative-text", {
+            content: 'The method is qualitative meaning that one or more expert opinions are used to measure the indicator',
+          });
+        tippy("#quantitative-text", {
+            content: 'The method is quantitative meaning it solely relies on measureable variables to determine the indicators value',
+          });
+          tippy("#all-text", {
+            content: 'Selects all indicators in this category',
+          });
+    
+    
+    
+
+const propertyMap = new Map([
+["fail-safe", 2],
+["redundancy", 3],
+["reconfigurability", 4],
+["modularity", 5],
+["repurposability", 6],
+["flexibility", 7],
+["controllability", 8],
+["reliability", 9],
+["recoverability", 10],
+["rapidity", 11],
+["robustness", 12],
+["resourcefulness", 13],
+["sustainability", 14],
+["circularity", 15],
+["analytical", 16],
+["empirical", 17],
+["simulation", 18],
+["prevention", 19],
+["detection", 20],
+["qualitative", 21],
+["quantitative", 22]
+]);
+
+        const data = [
+    {
+        "Resilience Indicators": "Product Recyclability",
+        "Description\n-\nWorking Principles": "In the procedure of product development and production, suppliers should pay attention to the recovery and recycling potential of scrap materials and consumables",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "X",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Multi Criteria decision making (MCDM)",
+        "Application & Scope": "Sustainable recycling supplier selection of e-bike sharing",
+        "Source name": "Sustainable supplier selection using an intuitionistic and interval-valued fuzzy MCDM approach based on cumulative prospect theory",
+        "Journal": "Information Sciences",
+        "Authors": "Naijie Chai, Wenliang Zhou, Zhigang Jiang",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0020025523000701"
+    },
+    {
+        "Resilience Indicators": "Pollution Production Capability",
+        "Description\n-\nWorking Principles": "In the manufacturing process, suppliers should develop effective methods to reduce pollution, control pollution and use clean energy without pollution partially, including water power, wind power, solar energy, etc.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "X",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Multi Criteria decision making (MCDM)",
+        "Application & Scope": "Sustainable recycling supplier selection of e-bike sharing",
+        "Source name": "Sustainable supplier selection using an intuitionistic and interval-valued fuzzy MCDM approach based on cumulative prospect theory",
+        "Journal": "Information Sciences",
+        "Authors": "Naijie Chai, Wenliang Zhou, Zhigang Jiang",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0020025523000701"
+    },
+    {
+        "Resilience Indicators": "Environmental Management",
+        "Description\n-\nWorking Principles": "Suppliers should implement a set of systematic practices that reduce environmental impacts, including building organizational structure, carrying out the local environmental protection regulations and policy, applying for related certificatioins (eg., ISO 14, 001 and TQEM), and carrying out checking and control of environmental activities.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "X",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Multi Criteria decision making (MCDM)",
+        "Application & Scope": "Sustainable recycling supplier selection of e-bike sharing",
+        "Source name": "Sustainable supplier selection using an intuitionistic and interval-valued fuzzy MCDM approach based on cumulative prospect theory",
+        "Journal": "Information Sciences",
+        "Authors": "Naijie Chai, Wenliang Zhou, Zhigang Jiang",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0020025523000701"
+    },
+    {
+        "Resilience Indicators": "Safety and health",
+        "Description\n-\nWorking Principles": "Supplieres should have the potential ability to formulate safety and health programs to protect personnel involved in the process. Especially, taking safety measures and creating standardized health and safety conditions are always deemed as the crucial sub-criterion for measuring this criterion",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "X",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Multi Criteria decision making (MCDM)",
+        "Application & Scope": "Sustainable recycling supplier selection of e-bike sharing",
+        "Source name": "Sustainable supplier selection using an intuitionistic and interval-valued fuzzy MCDM approach based on cumulative prospect theory",
+        "Journal": "Information Sciences",
+        "Authors": "Naijie Chai, Wenliang Zhou, Zhigang Jiang",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0020025523000701"
+    },
+    {
+        "Resilience Indicators": "Eco-design and green image",
+        "Description\n-\nWorking Principles": "In the procedure of product design, suppliers should consider awareness of enfironmental protection, i.e., designing a product with consideration of reducing material/energy consumption and environmental impacts , avoiding or reducing use of hazardous materials during the whole product lifecycle, and is easily decomposed at the end of product life. ",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "X",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Multi Criteria decision making (MCDM)",
+        "Application & Scope": "Sustainable recycling supplier selection of e-bike sharing",
+        "Source name": "Sustainable supplier selection using an intuitionistic and interval-valued fuzzy MCDM approach based on cumulative prospect theory",
+        "Journal": "Information Sciences",
+        "Authors": "Naijie Chai, Wenliang Zhou, Zhigang Jiang",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0020025523000701"
+    },
+    {
+        "Resilience Indicators": "Production facilities",
+        "Description\n-\nWorking Principles": "It is a maximum conceivable output of an economy in a given time period with the proper utilization of available resources. Availability of high level of production facilities and capacities lead to high chance of supplier selection. This factor includes process flexibility, volume flexibility, training, and promotion of JIT concept, handling and packaging capability, machine capacity and capability, facilities for measurement, calibration and testing .",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "X",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Intuitionistic Fuzzy Technique for Order Preference by Similarity to Ideal Solution (TOPSIS)",
+        "Application & Scope": "Applying three different decision framework approaches to a dataset",
+        "Source name": "Sustainable Supplier Selection in Intuitionistic Fuzzy Environment: A Decision Making Perspective",
+        "Journal": "Benchmarking: An International Journal",
+        "Authors": "Dilip Kumar Sen, Saurav Datta, Siba Sankar Mahapatra",
+        "Access Link": "https://www.emerald.com/insight/content/doi/10.1108/BIJ-11-2016-0172/full/html"
+    },
+    {
+        "Resilience Indicators": "Trustworthiness",
+        "Description\n-\nWorking Principles": "The Reliability indicator  measures the consistency and trustworthiness of suppliers and processes in meeting quality standards.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "X",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Multistage decision-making framework, FDEMATEL and FMOORA  ",
+        "Application & Scope": "Minimize total cost in a dairy SCN through sustainability and resilience",
+        "Source name": "Designing a dairy supply chain network considering sustainability and resilience: a multistage decision\u2011making framework",
+        "Journal": "Clean Technologies and Environmental Polic",
+        "Authors": "Farnaz Zarei\u2011Kordshouli, Mohammad Mahdi Paydar,  Sina Nayeri",
+        "Access Link": "https://link.springer.com/article/10.1007/s10098-023-02538-8"
+    },
+    {
+        "Resilience Indicators": "Supply chain density",
+        "Description\n-\nWorking Principles": "Supply chain density measures the quantity and spacing of nodes (supply chain proceses) in a supply chain. It can be calculated based on the clustering of nodes and their geographical distribution to assess resilience.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "X",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Multi-Criteria Decision Making (MCDM)",
+        "Application & Scope": "Develop a quantitative approach for supplier selection",
+        "Source name": "A hybrid MCDM model for resilient supplier selection",
+        "Journal": "International Journal of Management Science and Engineering Management",
+        "Authors": "Anupam Haldar, Amitava Ray, Debamalya Banerjee, Surojit Ghosh",
+        "Access Link": "https://www.researchgate.net/publication/261692816_A_hybrid_MCDM_model_for_resilient_supplier_selection"
+    },
+    {
+        "Resilience Indicators": "Supply chain complexity",
+        "Description\n-\nWorking Principles": "Supply chain complexity relates to the number and interconnections of nodes in a supply chain, affecting flexibility and resilience; additional nodes can enhance resilience through redundancy",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "X",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Multi-Criteria Decision Making (MCDM)",
+        "Application & Scope": "Develop a quantitative approach for supplier selection",
+        "Source name": "A hybrid MCDM model for resilient supplier selection",
+        "Journal": "International Journal of Management Science and Engineering Management",
+        "Authors": "Anupam Haldar, Amitava Ray, Debamalya Banerjee, Surojit Ghosh",
+        "Access Link": "https://www.researchgate.net/publication/261692816_A_hybrid_MCDM_model_for_resilient_supplier_selection"
+    },
+    {
+        "Resilience Indicators": "Responsiveness",
+        "Description\n-\nWorking Principles": "Responsiveness (R3) refers to the speed of supplier response to market demands, crucial for competitive advantage; effective supplier support ensures instant market intelligence and flexible manufacturing",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "X",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Multi-Criteria Decision Making (MCDM)",
+        "Application & Scope": "Develop a quantitative approach for supplier selection",
+        "Source name": "A hybrid MCDM model for resilient supplier selection",
+        "Journal": "International Journal of Management Science and Engineering Management",
+        "Authors": "Anupam Haldar, Amitava Ray, Debamalya Banerjee, Surojit Ghosh",
+        "Access Link": "https://www.researchgate.net/publication/261692816_A_hybrid_MCDM_model_for_resilient_supplier_selection"
+    },
+    {
+        "Resilience Indicators": "Number of critical nodes in a Supply chain",
+        "Description\n-\nWorking Principles": "Node criticality assesses the importance of specific nodes within a supply chain; disruptions to critical nodes significantly impact supply chain performance, highlighting the need for resilience strategies",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "X",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Multi-Criteria Decision Making (MCDM)",
+        "Application & Scope": "Develop a quantitative approach for supplier selection",
+        "Source name": "A hybrid MCDM model for resilient supplier selection",
+        "Journal": "International Journal of Management Science and Engineering Management",
+        "Authors": "Anupam Haldar, Amitava Ray, Debamalya Banerjee, Surojit Ghosh",
+        "Access Link": "https://www.researchgate.net/publication/261692816_A_hybrid_MCDM_model_for_resilient_supplier_selection"
+    },
+    {
+        "Resilience Indicators": "Facility dispersion",
+        "Description\n-\nWorking Principles": "Facility dispersion involves strategically distributing supply chain facilities across different regions to reduce vulnerability and minimize the impact of disruptions on the global supply chain network.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "X",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Comprehensive optimization model",
+        "Application & Scope": "Design robust global SCN for a medical device manufacturer",
+        "Source name": "Robust global supply chain network design under disruption and uncertainty considering resilience strategies: A parallel memetic algorithm for a real-life case study",
+        "Journal": "Transportation Research Part E: Logistics and Transportation Review",
+        "Authors": "Aliakbar Hasani, Amirhossein Khosrojerdi",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S1366554515002343"
+    },
+    {
+        "Resilience Indicators": "Facility fortification",
+        "Description\n-\nWorking Principles": "Facility fortification enhances supply chain facilities' resilience by strengthening physical and operational capabilities to withstand disruptions, ensuring continuity and minimizing the impact of disruptive events.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "X",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Comprehensive optimization model",
+        "Application & Scope": "Design robust global SCN for a medical device manufacturer",
+        "Source name": "Robust global supply chain network design under disruption and uncertainty considering resilience strategies: A parallel memetic algorithm for a real-life case study",
+        "Journal": "Transportation Research Part E: Logistics and Transportation Review",
+        "Authors": "Aliakbar Hasani, Amirhossein Khosrojerdi",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S1366554515002343"
+    },
+    {
+        "Resilience Indicators": "Extreme weather problems",
+        "Description\n-\nWorking Principles": "Disruptions caused by extreme weather condition such as heavy rain or snowstorms",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "X",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Best Worst Method (BWM) - Rough Strength Relation (RSR)",
+        "Application & Scope": "Analyze the critical transportation disruption factors of the supply chain of automotive parts\nmanufacturing company",
+        "Source name": "Modeling transportation disruptions in the supply chain of automotive parts manufacturing company",
+        "Journal": "International Journal of Production Economics",
+        "Authors": "Seyedamir-Reza Fartaj, Golam Kabir, Victor Eghujovbo, Syed Mithun Ali,\nSanjoy Kumar Paul",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0925527319303317"
+    },
+    {
+        "Resilience Indicators": "Natural disasters",
+        "Description\n-\nWorking Principles": "These are rare events but have catastrophic consequences. Examples include hurricanes, flood, storms, and earthquakes.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "X",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Best Worst Method (BWM) - Rough Strength Relation (RSR)",
+        "Application & Scope": "Analyze the critical transportation disruption factors of the supply chain of automotive parts\nmanufacturing company",
+        "Source name": "Modeling transportation disruptions in the supply chain of automotive parts manufacturing company",
+        "Journal": "International Journal of Production Economics",
+        "Authors": "Seyedamir-Reza Fartaj, Golam Kabir, Victor Eghujovbo, Syed Mithun Ali,\nSanjoy Kumar Paul",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0925527319303317"
+    },
+    {
+        "Resilience Indicators": "Machine or equipment failure/breakdown",
+        "Description\n-\nWorking Principles": "The breakdown of the machine or equipment related to the transportation like crane, fort lift, conveyer, ramp",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "X",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Best Worst Method (BWM) - Rough Strength Relation (RSR)",
+        "Application & Scope": "Analyze the critical transportation disruption factors of the supply chain of automotive parts\nmanufacturing company",
+        "Source name": "Modeling transportation disruptions in the supply chain of automotive parts manufacturing company",
+        "Journal": "International Journal of Production Economics",
+        "Authors": "Seyedamir-Reza Fartaj, Golam Kabir, Victor Eghujovbo, Syed Mithun Ali,\nSanjoy Kumar Paul",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0925527319303317"
+    },
+    {
+        "Resilience Indicators": "IT and information miscommunication",
+        "Description\n-\nWorking Principles": "Absence of IT infrastructure and system to process and distribute accurate information among supply chain partners.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "X",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Best Worst Method (BWM) - Rough Strength Relation (RSR)",
+        "Application & Scope": "Analyze the critical transportation disruption factors of the supply chain of automotive parts\nmanufacturing company",
+        "Source name": "Modeling transportation disruptions in the supply chain of automotive parts manufacturing company",
+        "Journal": "International Journal of Production Economics",
+        "Authors": "Seyedamir-Reza Fartaj, Golam Kabir, Victor Eghujovbo, Syed Mithun Ali,\nSanjoy Kumar Paul",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0925527319303317"
+    },
+    {
+        "Resilience Indicators": "Disruption to earthquakes",
+        "Description\n-\nWorking Principles": "The resistance to disruption indicator in the paper quantifies the probability of supply chain disruptions due to natural disasters exspecially earthquakes, aiding in evaluating and enhancing supply chain resilience.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "X",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "X",
+        "Simulation/Optimization": "-",
+        "Prevention": "-",
+        "Detection": "X",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Multistage decision-making framework, FDEMATEL and FMOORA  ",
+        "Application & Scope": "Minimize total cost in a dairy SCN through sustainability and resilience",
+        "Source name": "Designing a dairy supply chain network considering sustainability and resilience: a multistage decision\u2011making framework",
+        "Journal": "Clean Technologies and Environmental Polic",
+        "Authors": "Farnaz Zarei\u2011Kordshouli, Mohammad Mahdi Paydar,  Sina Nayeri",
+        "Access Link": "https://link.springer.com/article/10.1007/s10098-023-02538-8"
+    },
+    {
+        "Resilience Indicators": "Resilience in the face of flood",
+        "Description\n-\nWorking Principles": "The resilience of flood indicator assesses urban water infrastructure's ability to withstand and recover from flood events, considering overflowed water, runoff volume, and flood duration.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "X",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "S-FRESI framework",
+        "Application & Scope": "Literature review concerning resilience and sustainbility indicators in Urban water infrastructure",
+        "Source name": "Resilience Assessment in Urban Water Infrastructure: A Critical Review of Approaches, Strategies and Applications",
+        "Journal": "MDPI sustainbility",
+        "Authors": "Fatemeh Asghari, Farzad Piadeh, Daniel Egyir, Hossein Yousefi, Joseph P. Rizzuto, Luiza C. Campos, Kourosh Behzadian",
+        "Access Link": "https://www.mdpi.com/2071-1050/15/14/11151"
+    },
+    {
+        "Resilience Indicators": "System Impact (SI)",
+        "Description\n-\nWorking Principles": "Systemic Impact (SI) measures the impact of disruptions on system productivity by comparing targeted system performance with actual performance post-disruption. It quantifies the decrease in system performance due to disturbances, providing insights into the extent of disruption and the system's ability to maintain functionality",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "X",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": NaN,
+        "Application & Scope": "Develops a resilience framework for a hypothetical scenario involving the disruption of a petrochemical supply chain",
+        "Source name": "A Resilience Assessment Framework for Infrastructure and Economic Systems: Quantitative and Qualitative Resilience Analysis of Petrochemical Supply Chains to a Hurricane",
+        "Journal": "AIChE",
+        "Authors": "Eric D. Vugrin, Drake E. Warren, Mark A. Ehlen",
+        "Access Link": "https://www.osti.gov/servlets/purl/1124450"
+    },
+    {
+        "Resilience Indicators": "Total recovery effort (TRE)",
+        "Description\n-\nWorking Principles": "Total Recovery Effort (TRE) measures the efficiency of a system's recovery process after a disruption by analyzing the resources expended. It quantifies the amount of effort and resources required to restore the system to its pre-disruption state, providing insights into the system's resilience and ability to recover effectively",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "X",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": NaN,
+        "Application & Scope": "Develops a resilience framework for a hypothetical scenario involving the disruption of a petrochemical supply chain",
+        "Source name": "A Resilience Assessment Framework for Infrastructure and Economic Systems: Quantitative and Qualitative Resilience Analysis of Petrochemical Supply Chains to a Hurricane",
+        "Journal": "AIChE",
+        "Authors": "Eric D. Vugrin, Drake E. Warren, Mark A. Ehlen",
+        "Access Link": "https://www.osti.gov/servlets/purl/1124450"
+    },
+    {
+        "Resilience Indicators": "Probability of realizing disruption",
+        "Description\n-\nWorking Principles": "The probability of realizing a disruption scenario in the supply chain is calculated by multiplying the probabilities of individual supplier disruptions under that scenario. This equation considers the likelihood of each supplier either continuing to operate or failing in the event of a disruption",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "X",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "-",
+        "Detection": "X",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Stochastic bi-objective mixed integer programming model",
+        "Application & Scope": "A tool for resilient supplier selection",
+        "Source name": "Resilient supplier selection and optimal order allocation under disruption risks",
+        "Journal": "International Journal of Production Economics",
+        "Authors": "Seyedmohsen Hosseinia, Nazanin Morshedlou, Dmitry Ivanov, Sarder, Kash Barker, Abdullah Al Khaled",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0925527319301069"
+    },
+    {
+        "Resilience Indicators": "Material flow",
+        "Description\n-\nWorking Principles": "Material flow would be quickly restored",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "X",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "KPI verified by confirmatory factor analysis (CFA)",
+        "Application & Scope": "A study of 264 UK manufacturing plant determining the most important resiliency metrics",
+        "Source name": "A Contingent Resource-Based Perspective of Supply Chain Resilience and Robustness",
+        "Journal": "Journal of supply chain management",
+        "Authors": "Emma Brandon-Jones, Brian Squire, Chad W. Autry, Kenneth J. Petersen",
+        "Access Link": "https://onlinelibrary.wiley.com/doi/full/10.1111/jscm.12050"
+    },
+    {
+        "Resilience Indicators": "Recovery of operating performance",
+        "Description\n-\nWorking Principles": "It would not take long to recover normal operating performance",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "X",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "KPI verified by confirmatory factor analysis (CFA)",
+        "Application & Scope": "A study of 264 UK manufacturing plant determining the most important resiliency metrics",
+        "Source name": "A Contingent Resource-Based Perspective of Supply Chain Resilience and Robustness",
+        "Journal": "Journal of supply chain management",
+        "Authors": "Emma Brandon-Jones, Brian Squire, Chad W. Autry, Kenneth J. Petersen",
+        "Access Link": "https://onlinelibrary.wiley.com/doi/full/10.1111/jscm.12050"
+    },
+    {
+        "Resilience Indicators": "Supply chain recovery",
+        "Description\n-\nWorking Principles": "The supply chain would easily recover to its original state",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "X",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "KPI verified by confirmatory factor analysis (CFA)",
+        "Application & Scope": "A study of 264 UK manufacturing plant determining the most important resiliency metrics",
+        "Source name": "A Contingent Resource-Based Perspective of Supply Chain Resilience and Robustness",
+        "Journal": "Journal of supply chain management",
+        "Authors": "Emma Brandon-Jones, Brian Squire, Chad W. Autry, Kenneth J. Petersen",
+        "Access Link": "https://onlinelibrary.wiley.com/doi/full/10.1111/jscm.12050"
+    },
+    {
+        "Resilience Indicators": "Dealing with disruptions",
+        "Description\n-\nWorking Principles": "Disruptions would be dealt with quickly ",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "X",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "KPI verified by confirmatory factor analysis (CFA)",
+        "Application & Scope": "A study of 264 UK manufacturing plant determining the most important resiliency metrics",
+        "Source name": "A Contingent Resource-Based Perspective of Supply Chain Resilience and Robustness",
+        "Journal": "Journal of supply chain management",
+        "Authors": "Emma Brandon-Jones, Brian Squire, Chad W. Autry, Kenneth J. Petersen",
+        "Access Link": "https://onlinelibrary.wiley.com/doi/full/10.1111/jscm.12050"
+    },
+    {
+        "Resilience Indicators": "Continous operations",
+        "Description\n-\nWorking Principles": "Operations would be able to continue",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "X",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "KPI verified by confirmatory factor analysis (CFA)",
+        "Application & Scope": "A study of 264 UK manufacturing plant determining the most important resiliency metrics",
+        "Source name": "A Contingent Resource-Based Perspective of Supply Chain Resilience and Robustness",
+        "Journal": "Journal of supply chain management",
+        "Authors": "Emma Brandon-Jones, Brian Squire, Chad W. Autry, Kenneth J. Petersen",
+        "Access Link": "https://onlinelibrary.wiley.com/doi/full/10.1111/jscm.12050"
+    },
+    {
+        "Resilience Indicators": "Meeting demand",
+        "Description\n-\nWorking Principles": "We would still be able to meet customer demand",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "X",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "KPI verified by confirmatory factor analysis (CFA)",
+        "Application & Scope": "A study of 264 UK manufacturing plant determining the most important resiliency metrics",
+        "Source name": "A Contingent Resource-Based Perspective of Supply Chain Resilience and Robustness",
+        "Journal": "Journal of supply chain management",
+        "Authors": "Emma Brandon-Jones, Brian Squire, Chad W. Autry, Kenneth J. Petersen",
+        "Access Link": "https://onlinelibrary.wiley.com/doi/full/10.1111/jscm.12050"
+    },
+    {
+        "Resilience Indicators": "Performance deviation",
+        "Description\n-\nWorking Principles": "Performance would not deviate significantly from targets ",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "X",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "KPI verified by confirmatory factor analysis (CFA)",
+        "Application & Scope": "A study of 264 UK manufacturing plant determining the most important resiliency metrics",
+        "Source name": "A Contingent Resource-Based Perspective of Supply Chain Resilience and Robustness",
+        "Journal": "Journal of supply chain management",
+        "Authors": "Emma Brandon-Jones, Brian Squire, Chad W. Autry, Kenneth J. Petersen",
+        "Access Link": "https://onlinelibrary.wiley.com/doi/full/10.1111/jscm.12050"
+    },
+    {
+        "Resilience Indicators": "Supply chain functionality",
+        "Description\n-\nWorking Principles": "The supply chain would still be able to carry out its regular functions",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "X",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "KPI verified by confirmatory factor analysis (CFA)",
+        "Application & Scope": "A study of 264 UK manufacturing plant determining the most important resiliency metrics",
+        "Source name": "A Contingent Resource-Based Perspective of Supply Chain Resilience and Robustness",
+        "Journal": "Journal of supply chain management",
+        "Authors": "Emma Brandon-Jones, Brian Squire, Chad W. Autry, Kenneth J. Petersen",
+        "Access Link": "https://onlinelibrary.wiley.com/doi/full/10.1111/jscm.12050"
+    },
+    {
+        "Resilience Indicators": "Reliability structure function",
+        "Description\n-\nWorking Principles": "The reliability structure function in supply chain reliability analysis represents the logical relationship between the states of individual components and the overall system. It is a mathematical function that quantifies how the reliability of each component contributes to the reliability of the entire system in a graphical and systematic manner.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "X",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Reliability analysis",
+        "Application & Scope": "Defining supply chain reliability and doing a case study on a computer assembly company",
+        "Source name": "A mathematical definition and basic structures for supply chain reliability: A procurement capability perspective",
+        "Journal": "Computers & Industrial Engineering",
+        "Authors": "Chunghun Ha, Hong-Bae Jun, Changsoo Ok",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0360835218301803"
+    },
+    {
+        "Resilience Indicators": "Turbulence",
+        "Description\n-\nWorking Principles": "The turbulence factor of vulnerability refers to an environment characterized by frequent and unpredictable changes in external factors beyond control, such as natural disasters, geopolitical disruptions, fluctuating currencies, and technological failures. It highlights the challenges posed by dynamic and uncertain conditions that can impact supply chain operations",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "X",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Conceptual framework",
+        "Application & Scope": "Developing a tool for understanding resilience in supply chains",
+        "Source name": "Ensuring Supply Chain Resilience: Development of a Conceptual Framework",
+        "Journal": "Journal of Business Logistics",
+        "Authors": "Timothy J. Pettit, Joseph Fiksel, Keely L. Croxton",
+        "Access Link": "https://www.researchgate.net/publication/229897011_Ensuring_Supply_Chain_Resilience_Development_of_a_Conceptual_Framework"
+    },
+    {
+        "Resilience Indicators": "Deliberate threats",
+        "Description\n-\nWorking Principles": "The deliberate threats factor of vulnerability encompasses intentional actions aimed at disrupting operations or causing harm, including theft, terrorism, sabotage, labor disputes, espionage, special interest groups, and product liability issues. It highlights risks posed by malicious activities that can impact supply chain stability and continuity",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "X",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Conceptual framework",
+        "Application & Scope": "Developing a tool for understanding resilience in supply chains",
+        "Source name": "Ensuring Supply Chain Resilience: Development of a Conceptual Framework",
+        "Journal": "Journal of Business Logistics",
+        "Authors": "Timothy J. Pettit, Joseph Fiksel, Keely L. Croxton",
+        "Access Link": "https://www.researchgate.net/publication/229897011_Ensuring_Supply_Chain_Resilience_Development_of_a_Conceptual_Framework"
+    },
+    {
+        "Resilience Indicators": "External pressures",
+        "Description\n-\nWorking Principles": "The external pressures factor of vulnerability includes influences not directly targeting the firm but creating constraints or barriers, such as competitive innovation, social and cultural changes, political and regulatory shifts, price pressures, corporate responsibilities, and environmental impacts. It signifies external forces that can challenge supply chain operations and resilience",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "X",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Conceptual framework",
+        "Application & Scope": "Developing a tool for understanding resilience in supply chains",
+        "Source name": "Ensuring Supply Chain Resilience: Development of a Conceptual Framework",
+        "Journal": "Journal of Business Logistics",
+        "Authors": "Timothy J. Pettit, Joseph Fiksel, Keely L. Croxton",
+        "Access Link": "https://www.researchgate.net/publication/229897011_Ensuring_Supply_Chain_Resilience_Development_of_a_Conceptual_Framework"
+    },
+    {
+        "Resilience Indicators": "Resource limits",
+        "Description\n-\nWorking Principles": "The Resource limits factor of vulnerability involves constraints on output due to the availability of production factors. It includes limitations on supplier, production, and distribution capacities, as well as constraints on raw materials, utilities, and human resources. This factor highlights risks associated with resource scarcity and capacity constraints within the supply chain",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "X",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Conceptual framework",
+        "Application & Scope": "Developing a tool for understanding resilience in supply chains",
+        "Source name": "Ensuring Supply Chain Resilience: Development of a Conceptual Framework",
+        "Journal": "Journal of Business Logistics",
+        "Authors": "Timothy J. Pettit, Joseph Fiksel, Keely L. Croxton",
+        "Access Link": "https://www.researchgate.net/publication/229897011_Ensuring_Supply_Chain_Resilience_Development_of_a_Conceptual_Framework"
+    },
+    {
+        "Resilience Indicators": "Sensitivity",
+        "Description\n-\nWorking Principles": "The sensitivity factor of vulnerability pertains to the critical importance of maintaining controlled conditions for product and process integrity. It includes aspects like complexity, product purity, restricted materials, fragility, equipment reliability, safety hazards, visibility to stakeholders, brand reputation, and capacity concentration. This factor highlights vulnerabilities related to maintaining quality and safety standards",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "X",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Conceptual framework",
+        "Application & Scope": "Developing a tool for understanding resilience in supply chains",
+        "Source name": "Ensuring Supply Chain Resilience: Development of a Conceptual Framework",
+        "Journal": "Journal of Business Logistics",
+        "Authors": "Timothy J. Pettit, Joseph Fiksel, Keely L. Croxton",
+        "Access Link": "https://www.researchgate.net/publication/229897011_Ensuring_Supply_Chain_Resilience_Development_of_a_Conceptual_Framework"
+    },
+    {
+        "Resilience Indicators": "Connectivity",
+        "Description\n-\nWorking Principles": "The connectivity factor of vulnerability refers to the degree of interdependence and reliance on external entities within the supply chain network. It encompasses the scale of the network, reliance on information flow, degree of outsourcing, import and export channels, and dependence on specialty sources. This factor highlights risks associated with network dependencies",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "X",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Conceptual framework",
+        "Application & Scope": "Developing a tool for understanding resilience in supply chains",
+        "Source name": "Ensuring Supply Chain Resilience: Development of a Conceptual Framework",
+        "Journal": "Journal of Business Logistics",
+        "Authors": "Timothy J. Pettit, Joseph Fiksel, Keely L. Croxton",
+        "Access Link": "https://www.researchgate.net/publication/229897011_Ensuring_Supply_Chain_Resilience_Development_of_a_Conceptual_Framework"
+    },
+    {
+        "Resilience Indicators": "Supplier/Customer disruptions",
+        "Description\n-\nWorking Principles": "The Supplier/Customer disruptions factor of vulnerability relates to the susceptibility of suppliers and customers to external forces or disruptions. It includes aspects like supplier reliability and potential disruptions from customers. This factor underscores the risks associated with the reliability and stability of key partners in the supply chain",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "X",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Conceptual framework",
+        "Application & Scope": "Developing a tool for understanding resilience in supply chains",
+        "Source name": "Ensuring Supply Chain Resilience: Development of a Conceptual Framework",
+        "Journal": "Journal of Business Logistics",
+        "Authors": "Timothy J. Pettit, Joseph Fiksel, Keely L. Croxton",
+        "Access Link": "https://www.researchgate.net/publication/229897011_Ensuring_Supply_Chain_Resilience_Development_of_a_Conceptual_Framework"
+    },
+    {
+        "Resilience Indicators": "Sustainability Index (SI)",
+        "Description\n-\nWorking Principles": "The Sustainability Index (SI) is a quantitative measure used to assess the sustainability of manufacturing enterprises. It considers various aspects such as international issues, contemporary issues, innovative products, and flexible management to determine the level of effort needed for sustainability compared to the existing state.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "X",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Design for Sustainable Manufacturing Enterprises (DFSME)",
+        "Application & Scope": "Developing a quantitative framework for design for sustainable manufacturing enterprises",
+        "Source name": "DFSME: Design for sustainable manufacturing enterprises (an economic viewpoint)",
+        "Journal": "International Journal of Production Research",
+        "Authors": "Ibrahim H. Garbie",
+        "Access Link": "https://www.researchgate.net/publication/241728112_DFSME_Design_for_sustainable_manufacturing_enterprises_an_economic_viewpoint"
+    },
+    {
+        "Resilience Indicators": "Energy flexible facilities",
+        "Description\n-\nWorking Principles": "Energy flexible facilities can switch between different energy sources to enhance resilience, reduce costs, and lower CO2 emissions. They utilize bivalent or hybrid systems to adapt to changing energy conditions, ensuring operational continuity and sustainability in industrial processes.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "X",
+        "Reconfigurability": "X",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Bivalent and multivalent process",
+        "Application & Scope": "Impact of power or gas disruptions on a bivalent crucible furnace",
+        "Source name": "Increasing Energy Resilience and Sustainability with Bivalent and Hybrid  Facilities",
+        "Journal": "Procedia CIRP",
+        "Authors": "Ekrem K\u00f6se, Alexander Sauer",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S2212827123005383"
+    },
+    {
+        "Resilience Indicators": "System of System Resilience Measurement (SoSRM)",
+        "Description\n-\nWorking Principles": "The System of System Resilience Measurement (SoSRM) is a metric used to quantify human-centric performance measurement of resilience in System of Systems (SoS). It captures system dynamics, fault locations, and network interdependencies, providing a standardized measure of resilience that considers fault and recovery durations across various SoS architectures",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "X",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Network model",
+        "Application & Scope": "Resilience approaches in the Forestry Industry",
+        "Source name": "Adding a Detrital Actor to Increase System of System Resilience: A Case Study Test of a Biologically Inspired Design Heuristic to Guide Sociotechnical Network Evolution",
+        "Journal": "J. Mech. Des.",
+        "Authors": "Bryan C. Watson, Stephen Malone, Marc Weissburg, Bert Bras",
+        "Access Link": "https://asmedigitalcollection.asme.org/mechanicaldesign/article/142/12/121705/1087483/Adding-a-Detrital-Actor-to-Increase-System-of"
+    },
+    {
+        "Resilience Indicators": "Supplier delivery rate",
+        "Description\n-\nWorking Principles": "A combination of factors including the number of orders delivered on time or before the due date, the responsiveness of suppliers and the adaptability to different customer needs",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "X",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "X",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Fuzzy assesment framework and qualitative rankings",
+        "Application & Scope": "Literature review of resilience indicators ",
+        "Source name": "Resilience Index Development for the Manufacturing Industry based on Robustness, Resourcefulness, Redundancy, and Rapidity",
+        "Journal": "International Journal of Technology",
+        "Authors": "Almira Lavina Sambowo, Akhmad Hidayatno",
+        "Access Link": "https://ijtech.eng.ui.ac.id/article/view/5229"
+    },
+    {
+        "Resilience Indicators": "On-time delivery",
+        "Description\n-\nWorking Principles": "On time delivery measures the reliability and consistensy of delivery and wheter a perfect delivery has taken place measured by customers satisfaction",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "X",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Qualitative MDCA analysis",
+        "Application & Scope": "Literature review of resilience indicators ",
+        "Source name": "Resilience Index Development for the Manufacturing Industry based on Robustness, Resourcefulness, Redundancy, and Rapidity",
+        "Journal": "International Journal of Technology",
+        "Authors": "Almira Lavina Sambowo, Akhmad Hidayatno",
+        "Access Link": "https://ijtech.eng.ui.ac.id/article/view/5229"
+    },
+    {
+        "Resilience Indicators": "Supplier delivery lead time",
+        "Description\n-\nWorking Principles": "The time it takes the supplier to deliver a product after an order is put in",
+        "Fail-safe by design": "-",
+        "Redundancy ": "X",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": NaN,
+        "Application & Scope": "Literature review of resilience indicators ",
+        "Source name": "Resilience Index Development for the Manufacturing Industry based on Robustness, Resourcefulness, Redundancy, and Rapidity",
+        "Journal": "International Journal of Technology",
+        "Authors": "Almira Lavina Sambowo, Akhmad Hidayatno",
+        "Access Link": "https://ijtech.eng.ui.ac.id/article/view/5229"
+    },
+    {
+        "Resilience Indicators": "Manufacturing lead time",
+        "Description\n-\nWorking Principles": "The end-to-end manufacturing process cycle time.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "X",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": NaN,
+        "Application & Scope": "Literature review of resilience indicators ",
+        "Source name": "Resilience Index Development for the Manufacturing Industry based on Robustness, Resourcefulness, Redundancy, and Rapidity",
+        "Journal": "International Journal of Technology",
+        "Authors": "Almira Lavina Sambowo, Akhmad Hidayatno",
+        "Access Link": "https://ijtech.eng.ui.ac.id/article/view/5229"
+    },
+    {
+        "Resilience Indicators": "Power cuts (recovery from shutdown) or other extraordinary event",
+        "Description\n-\nWorking Principles": "The ability of a system to keep functioning despite a major disturbance and recover its operation after a major disturbance.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "X",
+        "Rapidity": "X",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": NaN,
+        "Empirical": NaN,
+        "Simulation/Optimization": NaN,
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": NaN,
+        "Application & Scope": "Literature review of resilience indicators ",
+        "Source name": "Resilience Index Development for the Manufacturing Industry based on Robustness, Resourcefulness, Redundancy, and Rapidity",
+        "Journal": "International Journal of Technology",
+        "Authors": "Almira Lavina Sambowo, Akhmad Hidayatno",
+        "Access Link": "https://ijtech.eng.ui.ac.id/article/view/5229"
+    },
+    {
+        "Resilience Indicators": "Quality",
+        "Description\n-\nWorking Principles": "Supplier quality is a critical parameter controlling product quality and other requirements related to customer needs. A supplier should keep quality standards of the company, thereby improving organizational performance.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "X",
+        "Reliability": "X",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Grey relational approach",
+        "Application & Scope": "Resilient supplier selection",
+        "Source name": "Supplier selection in resilient supply chains: a grey relational analysis approach",
+        "Journal": "Journal of Cleaner Production",
+        "Authors": "R. Rajesh, V. Ravi",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0959652614008774"
+    },
+    {
+        "Resilience Indicators": "Cost",
+        "Description\n-\nWorking Principles": "Effective cost management of purchases among suppliers is an inevitable factor in achieving corporate success. Apart from the quantity of order, a supplier must provide raw materials at reasonable rates.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "X",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Grey relational approach",
+        "Application & Scope": "Resilient supplier selection",
+        "Source name": "Supplier selection in resilient supply chains: a grey relational analysis approach",
+        "Journal": "Journal of Cleaner Production",
+        "Authors": "R. Rajesh, V. Ravi",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0959652614008774"
+    },
+    {
+        "Resilience Indicators": "Supply chain velocity",
+        "Description\n-\nWorking Principles": "Velocity can be defined as distance over time. To increase the supply chain velocity, elapsed time from the placement of order to the point of delivery of product should be reduced. A supplier must have enough acceleration also, to react with changes in demands",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "X",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Grey relational approach",
+        "Application & Scope": "Resilient supplier selection",
+        "Source name": "Supplier selection in resilient supply chains: a grey relational analysis approach",
+        "Journal": "Journal of Cleaner Production",
+        "Authors": "R. Rajesh, V. Ravi",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0959652614008774"
+    },
+    {
+        "Resilience Indicators": "Supply chain visibility",
+        "Description\n-\nWorking Principles": "Visibility is the ability of the supplier to have a vivid view of upstream and downstream inventories, demand and supply conditions and production and purchasing schedules. Resilience is enhanced with better visibility of suppliers",
+        "Fail-safe by design": "-",
+        "Redundancy ": "X",
+        "Reconfigurability": "X",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "X",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Grey relational approach",
+        "Application & Scope": "Resilient supplier selection",
+        "Source name": "Supplier selection in resilient supply chains: a grey relational analysis approach",
+        "Journal": "Journal of Cleaner Production",
+        "Authors": "R. Rajesh, V. Ravi",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0959652614008774"
+    },
+    {
+        "Resilience Indicators": "Vulnerability",
+        "Description\n-\nWorking Principles": "Supplier should not be vulnerable to various sources of risks. There should be a resilient sales and operations planning process for suppliers to identify and react to sources of vulnerabilities",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "X",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Grey relational approach",
+        "Application & Scope": "Resilient supplier selection",
+        "Source name": "Supplier selection in resilient supply chains: a grey relational analysis approach",
+        "Journal": "Journal of Cleaner Production",
+        "Authors": "R. Rajesh, V. Ravi",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0959652614008774"
+    },
+    {
+        "Resilience Indicators": "Level of collaboration",
+        "Description\n-\nWorking Principles": "Supplier collaboration reduces forecasting and inventory management risks, thereby enhancing resilience of supply chains. Also, it helps in allowing mitigating action to be taken to deal with supply side disruptions.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "X",
+        "Modularity/Mobility/Distributability": "X",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Grey relational approach",
+        "Application & Scope": "Resilient supplier selection",
+        "Source name": "Supplier selection in resilient supply chains: a grey relational analysis approach",
+        "Journal": "Journal of Cleaner Production",
+        "Authors": "R. Rajesh, V. Ravi",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0959652614008774"
+    },
+    {
+        "Resilience Indicators": "Risk awareness",
+        "Description\n-\nWorking Principles": "Supplier should be aware of various levels of risks, such as risks related with assets, process, organizations and environment. Risk awareness helps them to act in cases of emergency, thus increasing resilience capability of  suppliers.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "X",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Grey relational approach",
+        "Application & Scope": "Resilient supplier selection",
+        "Source name": "Supplier selection in resilient supply chains: a grey relational analysis approach",
+        "Journal": "Journal of Cleaner Production",
+        "Authors": "R. Rajesh, V. Ravi",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0959652614008774"
+    },
+    {
+        "Resilience Indicators": "Supply chain continuity management",
+        "Description\n-\nWorking Principles": "The supplier's risk management culture for resilience should have the considerations beyond corporate risk management or business continuity management to a \u2018supply chain continuity management\u2019.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "X",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Grey relational approach",
+        "Application & Scope": "Resilient supplier selection",
+        "Source name": "Supplier selection in resilient supply chains: a grey relational analysis approach",
+        "Journal": "Journal of Cleaner Production",
+        "Authors": "R. Rajesh, V. Ravi",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0959652614008774"
+    },
+    {
+        "Resilience Indicators": "Technological capability",
+        "Description\n-\nWorking Principles": "Suppliers must be technologically capable to adapt\nthemselves towards innovations. Incorporating advanced\nproduct and process technologies enable suppliers to be\nresilient enough to adjust with technological turbulence.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "X",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "X",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Grey relational approach",
+        "Application & Scope": "Resilient supplier selection",
+        "Source name": "Supplier selection in resilient supply chains: a grey relational analysis approach",
+        "Journal": "Journal of Cleaner Production",
+        "Authors": "R. Rajesh, V. Ravi",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0959652614008774"
+    },
+    {
+        "Resilience Indicators": "Research and development",
+        "Description\n-\nWorking Principles": "Suppliers should have a strong R&D wing to incorporate innovations in technology and to adapt with the present market turbulences. In addition, suppliers should work in collaboration with the R&D activities of the firm for risk mitigation.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "X",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Grey relational approach",
+        "Application & Scope": "Resilient supplier selection",
+        "Source name": "Supplier selection in resilient supply chains: a grey relational analysis approach",
+        "Journal": "Journal of Cleaner Production",
+        "Authors": "R. Rajesh, V. Ravi",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0959652614008774"
+    },
+    {
+        "Resilience Indicators": "Safety",
+        "Description\n-\nWorking Principles": "Suppliers must provide their employees with a safe and\nhealthy working environment in order to prevent accidents\nand injury to health occurring in the course of work or as a\nresult of the operation of the supplier.",
+        "Fail-safe by design": "X",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Grey relational approach",
+        "Application & Scope": "Resilient supplier selection",
+        "Source name": "Supplier selection in resilient supply chains: a grey relational analysis approach",
+        "Journal": "Journal of Cleaner Production",
+        "Authors": "R. Rajesh, V. Ravi",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0959652614008774"
+    },
+    {
+        "Resilience Indicators": "Concern for environment",
+        "Description\n-\nWorking Principles": "Complying with environmental regulations for products,\nsuppliers should implement strategies to voluntarily reduce\nenvironmental impacts of their deliverables. Proactive\nmethods should be implemented by suppliers for protection\nof environment as a whole.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "X",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "X",
+        "Quantitative": "-",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Grey relational approach",
+        "Application & Scope": "Resilient supplier selection",
+        "Source name": "Supplier selection in resilient supply chains: a grey relational analysis approach",
+        "Journal": "Journal of Cleaner Production",
+        "Authors": "R. Rajesh, V. Ravi",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0959652614008774"
+    },
+    {
+        "Resilience Indicators": "Demand unprediticability",
+        "Description\n-\nWorking Principles": "Coping with demand fluctuations and unprediticability by adapting to the given environment ",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "X",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "X",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": NaN,
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Agent-based computational modelling",
+        "Application & Scope": "Studying a multi-product & multi-country supply chain",
+        "Source name": "Agent-based modelling of complex production/distributionsystems to improve resilience",
+        "Journal": "International Journal of Logistics: Research and Applications",
+        "Authors": "PARTHA PRIYA DATTA, MARTIN CHRISTOPHER, PETER ALLEN",
+        "Access Link": "https://www.tandfonline.com/doi/full/10.1080/13675560701467144"
+    },
+    {
+        "Resilience Indicators": "Reconfigurable smoothness (RS)",
+        "Description\n-\nWorking Principles": "It is the measure of ease of manufacturing in terms of cost, time and effort and takes into account the system level and machine level reconfigurability",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "X",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Digital twin",
+        "Application & Scope": "Case study of automotive door trim manufacturing",
+        "Source name": "Digital Twin-Based Integrated Assessment of Flexible and Reconfigurable Automotive Part Production Lines",
+        "Journal": "MDPI machines",
+        "Authors": "Jinho Yang, Yoo Ho Son, Donggun Lee and Sang Do Noh",
+        "Access Link": "https://www.mdpi.com/2075-1702/10/2/75"
+    },
+    {
+        "Resilience Indicators": "Reconfigurable productivity (RP)",
+        "Description\n-\nWorking Principles": "Reconfiguration productivity (RP) is an index used to evaluate the production capacity and scalability of a production line by applying demand fulfilment (DF) and the scalability of production capacity (S) ",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "X",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Digital twin",
+        "Application & Scope": "Case study of automotive door trim manufacturing",
+        "Source name": "Digital Twin-Based Integrated Assessment of Flexible and Reconfigurable Automotive Part Production Lines",
+        "Journal": "MDPI machines",
+        "Authors": "Jinho Yang, Yoo Ho Son, Donggun Lee and Sang Do Noh",
+        "Access Link": "https://www.mdpi.com/2075-1702/10/2/75"
+    },
+    {
+        "Resilience Indicators": "Lifecycle cost (C)",
+        "Description\n-\nWorking Principles": "Lifecycle cost (C) is an index for evaluating the facility investment and operating costs compared to the investment budget\n",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "X",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Digital twin",
+        "Application & Scope": "Case study of automotive door trim manufacturing",
+        "Source name": "Digital Twin-Based Integrated Assessment of Flexible and Reconfigurable Automotive Part Production Lines",
+        "Journal": "MDPI machines",
+        "Authors": "Jinho Yang, Yoo Ho Son, Donggun Lee and Sang Do Noh",
+        "Access Link": "https://www.mdpi.com/2075-1702/10/2/75"
+    },
+    {
+        "Resilience Indicators": "Space efficiency (SE)",
+        "Description\n-\nWorking Principles": "\nSpace efficiency (SE) is an index defined to assess how efficiently a space is used based on the area of the line compared to the constrained space where the manufacturing line can be configured\n",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "X",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Digital twin",
+        "Application & Scope": "Case study of automotive door trim manufacturing",
+        "Source name": "Digital Twin-Based Integrated Assessment of Flexible and Reconfigurable Automotive Part Production Lines",
+        "Journal": "MDPI machines",
+        "Authors": "Jinho Yang, Yoo Ho Son, Donggun Lee and Sang Do Noh",
+        "Access Link": "https://www.mdpi.com/2075-1702/10/2/75"
+    },
+    {
+        "Resilience Indicators": "Module chain similarity",
+        "Description\n-\nWorking Principles": "The module chain similarity determines the difficulty, effort, time and efficiency of machine tool reconstruction",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "X",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Part of a MADM VIKOR evaluation",
+        "Application & Scope": "An example provided is the reconfiguration design of a machine tool",
+        "Source name": "Evaluation and optimization of the design schemes of reconfigurable machine tools based on multiple-attribute decision-making",
+        "Journal": "Advances in mechanical engineering ",
+        "Authors": "Guodong Yi,  Yang Wang and Xin Zhao",
+        "Access Link": "https://doi.org/10.1177/1687814018813054"
+    },
+    {
+        "Resilience Indicators": "Module interface complexity",
+        "Description\n-\nWorking Principles": "The module interface complexity determines the feasibility and complexity of the disassembly and assembly of the reconfiguration module",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "X",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Part of a MADM VIKOR evaluation",
+        "Application & Scope": "An example provided is the reconfiguration design of a machine tool",
+        "Source name": "Evaluation and optimization of the design schemes of reconfigurable machine tools based on multiple-attribute decision-making",
+        "Journal": "Advances in mechanical engineering ",
+        "Authors": "Guodong Yi,  Yang Wang and Xin Zhao",
+        "Access Link": "https://doi.org/10.1177/1687814018813054"
+    },
+    {
+        "Resilience Indicators": "Refiguration cost",
+        "Description\n-\nWorking Principles": "The reconfiguration cost determines the economic advantages of reconfigurable machines relative to fixed-structure equipment",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "X",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Part of a MADM VIKOR evaluation",
+        "Application & Scope": "An example provided is the reconfiguration design of a machine tool",
+        "Source name": "Evaluation and optimization of the design schemes of reconfigurable machine tools based on multiple-attribute decision-making",
+        "Journal": "Advances in mechanical engineering ",
+        "Authors": "Guodong Yi,  Yang Wang and Xin Zhao",
+        "Access Link": "https://doi.org/10.1177/1687814018813054"
+    },
+    {
+        "Resilience Indicators": "Customization",
+        "Description\n-\nWorking Principles": "Customization evaluates the ease of switching from producing one product to another through the selection of appropriate system elements",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "X",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Formula",
+        "Application & Scope": "Case study of high voltage eletrical energy equipment",
+        "Source name": "Evaluation of the reconfigurability of manufacturing systems based on fuzzy logic taking into account the links between the characteristics of the RMS",
+        "Journal": "International Journal of Computer Integrated Manufacturing",
+        "Authors": "Kombaya Touckia Jesus",
+        "Access Link": "https://www.tandfonline.com/doi/full/10.1080/0951192X.2023.2257632"
+    },
+    {
+        "Resilience Indicators": "Adaptability",
+        "Description\n-\nWorking Principles": "Adaptability ensures the convertibility of the system between products by acting on the functionality as well as the production capabilities of the system",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "X",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Formula",
+        "Application & Scope": "Case study of high voltage eletrical energy equipment",
+        "Source name": "Evaluation of the reconfigurability of manufacturing systems based on fuzzy logic taking into account the links between the characteristics of the RMS",
+        "Journal": "International Journal of Computer Integrated Manufacturing",
+        "Authors": "Kombaya Touckia Jesus",
+        "Access Link": "https://www.tandfonline.com/doi/full/10.1080/0951192X.2023.2257632"
+    },
+    {
+        "Resilience Indicators": "Modularity",
+        "Description\n-\nWorking Principles": "Modularity corresponds to the ability of the system to be divided into subunits and to integrate new elements",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "X",
+        "Modularity/Mobility/Distributability": "X",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Formula",
+        "Application & Scope": "Case study of high voltage eletrical energy equipment",
+        "Source name": "Evaluation of the reconfigurability of manufacturing systems based on fuzzy logic taking into account the links between the characteristics of the RMS",
+        "Journal": "International Journal of Computer Integrated Manufacturing",
+        "Authors": "Kombaya Touckia Jesus",
+        "Access Link": "https://www.tandfonline.com/doi/full/10.1080/0951192X.2023.2257632"
+    },
+    {
+        "Resilience Indicators": "Integrability",
+        "Description\n-\nWorking Principles": "The integrability corresponds to the ability to include new components on the line using adapted interfaces",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "X",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Formula",
+        "Application & Scope": "Case study of high voltage eletrical energy equipment",
+        "Source name": "Evaluation of the reconfigurability of manufacturing systems based on fuzzy logic taking into account the links between the characteristics of the RMS",
+        "Journal": "International Journal of Computer Integrated Manufacturing",
+        "Authors": "Kombaya Touckia Jesus",
+        "Access Link": "https://www.tandfonline.com/doi/full/10.1080/0951192X.2023.2257632"
+    },
+    {
+        "Resilience Indicators": "Diagnosability",
+        "Description\n-\nWorking Principles": "The diagnostic capacity corresponds to the speed of detection of a failure on the system or a quality defect and its root cause.",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "X",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Formula",
+        "Application & Scope": "Case study of high voltage eletrical energy equipment",
+        "Source name": "Evaluation of the reconfigurability of manufacturing systems based on fuzzy logic taking into account the links between the characteristics of the RMS",
+        "Journal": "International Journal of Computer Integrated Manufacturing",
+        "Authors": "Kombaya Touckia Jesus",
+        "Access Link": "https://www.tandfonline.com/doi/full/10.1080/0951192X.2023.2257632"
+    },
+    {
+        "Resilience Indicators": "Overall Equipment Effectiveness (OEE) flexibility",
+        "Description\n-\nWorking Principles": "The OEEflex indicator combines mobility, uniformity and range into the normal OEE indicator used in manufacturing to account for the flexibility of a system",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "X",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Formula",
+        "Application & Scope": "Improving existing metrics in manufacturing systems",
+        "Source name": "The role of equipment flexibility in Overall Equipment Effectiveness (OEE)-driven process improvement",
+        "Journal": "55th CIRP Conference on Manufacturing Systems",
+        "Authors": "Lauren Van De Ginste, El-Houssaine Aghezzaf, Johannes Cottyn",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S2212827122002633"
+    },
+    {
+        "Resilience Indicators": "Minimum total cost per unit operating time",
+        "Description\n-\nWorking Principles": "Minimum total cost per unit operating time takes into account the degredation and condition of the manufacturing system",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "X",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Formula",
+        "Application & Scope": "Verification of the model is done through a simple case study of coaxiality and diamter of cylinder samples",
+        "Source name": "Integrated condition-based maintenance and quality improvement model for deteriorating single-machine manufacturing systems considering condition indicator",
+        "Journal": "2020 3rd World Conference on Mechanical Engineering and Intelligent Manufacturing (WCMEIM)",
+        "Authors": "Shi Haohao, Chen Xiaohui, Zhang Ji, An Youjun",
+        "Access Link": "https://www.scopus.com/record/display.uri?eid=2-s2.0-85105421882&doi=10.1109%2fWCMEIM52463.2020.00055&origin=inward&txGid=bbffb512c3f25b9c3152d5a16277402f"
+    },
+    {
+        "Resilience Indicators": "Reliability rework",
+        "Description\n-\nWorking Principles": "The qualification rate of the manufacturing process",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "X",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "X",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Logistic regression fitted to actual data",
+        "Application & Scope": "Test to see if a pipe installation meets certain rework criteria and is deemed reliable",
+        "Source name": "Research on Rework Strategies for Reconfigurable Manufacturing System Considering Mission Reliability",
+        "Journal": "8th International Conference on Digital Enterprise Technology",
+        "Authors": "Wei Dai, Jian Chu, Paul G. Maropoulos, Yu Zhao",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S2212827114010610"
+    },
+    {
+        "Resilience Indicators": "Network reliability",
+        "Description\n-\nWorking Principles": "The network reliability indicator uses a chain network model to determine the ideal setup of machines when fased with different disruptions",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "X",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "-",
+        "Empirical": "-",
+        "Simulation/Optimization": "X",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Network model - Absorptive Markov Chain algorithm",
+        "Application & Scope": "Analysis of indentical parallel production lines with different disruptions",
+        "Source name": "AMC-Based Algorithm for Network Reliability Evaluation of a Manufacturing System with Scrapping and Rework",
+        "Journal": "International Journal of Performability Engineering",
+        "Authors": "Yu-Lun Chao, Yi-Kuei Lin, Cheng-Ta Yeh",
+        "Access Link": "https://www.ijpe-online.com/EN/10.23940/ijpe.22.04.p1.231240"
+    },
+    {
+        "Resilience Indicators": "Residual plant capacity",
+        "Description\n-\nWorking Principles": "The fraction of the plant capacity allocated to a certain machine",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "X",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Formula",
+        "Application & Scope": "Theoretical framework for assesment of resilience of a supply chain",
+        "Source name": "A methodology to estimate resilience of manufacturing plants",
+        "Journal": "IFAC",
+        "Authors": "Antonio C. Caputo, Pacifico M. Pelagagge, Paolo Salini",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S2405896319311802?ref=pdf_download&fr=RR-2&rr=88e85f26dbc292e0"
+    },
+    {
+        "Resilience Indicators": "Economic loss",
+        "Description\n-\nWorking Principles": "The loss caused by a disruptive event resulting in the need for reconfiguration",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "X",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": NaN,
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Formula",
+        "Application & Scope": "Theoretical framework for assesment of resilience of a supply chain",
+        "Source name": "A methodology to estimate resilience of manufacturing plants",
+        "Journal": "IFAC",
+        "Authors": "Antonio C. Caputo, Pacifico M. Pelagagge, Paolo Salini",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S2405896319311802?ref=pdf_download&fr=RR-2&rr=88e85f26dbc292e0"
+    },
+    {
+        "Resilience Indicators": "System convertebility",
+        "Description\n-\nWorking Principles": "Takes into account how convertible different parts of the manufacturing floor is",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "X",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Formula",
+        "Application & Scope": "Theoretical framework for assesment of convertibility of a manufacturing facility",
+        "Source name": "Convertibility Measures for Manufacturing Systems",
+        "Journal": "CIRP Annals",
+        "Authors": "V. Maier-Speredelozzi, Y. Koren, S.J. Hu",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0007850607606039"
+    },
+    {
+        "Resilience Indicators": "Survivability",
+        "Description\n-\nWorking Principles": "The ratio between the time dependent system performance in the pre and post disruption state at the lowest point of production in the disruption",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "X",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Formula",
+        "Application & Scope": "Analysing the resilience of a company with a known reduction in production during disruptions",
+        "Source name": "Mimicking nature for resilient resource and infrastructure network design",
+        "Journal": "Reliability Engineering and System Safety",
+        "Authors": "Abheek Chatterjee, Astrid Layton",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0951832020306438"
+    },
+    {
+        "Resilience Indicators": "Time to recovery",
+        "Description\n-\nWorking Principles": "Time before the pre disruption productivity is reached again",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "X",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Formula",
+        "Application & Scope": "Analysing the resilience of a company with a known reduction in production during disruptions",
+        "Source name": "Mimicking nature for resilient resource and infrastructure network design",
+        "Journal": "Reliability Engineering and System Safety",
+        "Authors": "Abheek Chatterjee, Astrid Layton",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0951832020306438"
+    },
+    {
+        "Resilience Indicators": "Recoverability",
+        "Description\n-\nWorking Principles": "The ratio between the time dependent system performance in the pre disruption and the post disruption state where the system is functional",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "X",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Formula",
+        "Application & Scope": "Analysing the resilience of a company with a known reduction in production during disruptions",
+        "Source name": "Mimicking nature for resilient resource and infrastructure network design",
+        "Journal": "Reliability Engineering and System Safety",
+        "Authors": "Abheek Chatterjee, Astrid Layton",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0951832020306438"
+    },
+    {
+        "Resilience Indicators": "Average Mutual Information (AMI)",
+        "Description\n-\nWorking Principles": "An indicator measuring the efficiency of organization in the system, which the assumption that a system has an upper bound on effiency",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "X",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Formula",
+        "Application & Scope": "Mimicking nature to simulate a resilience system",
+        "Source name": "Mimicking nature for resilient resource and infrastructure network design",
+        "Journal": "Reliability Engineering and System Safety",
+        "Authors": "Abheek Chatterjee, Astrid Layton",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0951832020306438"
+    },
+    {
+        "Resilience Indicators": "Shannon Index (H)",
+        "Description\n-\nWorking Principles": "The upper limit of organizational efficiency normalized by total system throughput. ",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "X",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Formula",
+        "Application & Scope": "Mimicking nature to simulate a resilience system",
+        "Source name": "Mimicking nature for resilient resource and infrastructure network design",
+        "Journal": "Reliability Engineering and System Safety",
+        "Authors": "Abheek Chatterjee, Astrid Layton",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0951832020306438"
+    },
+    {
+        "Resilience Indicators": "Recovery Level (RL)",
+        "Description\n-\nWorking Principles": "The percentage of the cumulative baseline performance that is recovered after the recovery period",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "X",
+        "Rapidity": "X",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Formula",
+        "Application & Scope": "Testing resillience metrics on a simple supply chain problem",
+        "Source name": "On metrics for supply chain resilience",
+        "Journal": "European Journal of Operational Research",
+        "Authors": "Golnar Behzadi, Michael Justin O\u2019Sullivan, Tava Lennon Olsen",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0377221720303933?ref=pdf_download&fr=RR-2&rr=88ea1b3a09ff95fc"
+    },
+    {
+        "Resilience Indicators": "Lost profit during recovery period (LPR)",
+        "Description\n-\nWorking Principles": "The difference between the cumulative baseline profit and the cumulative profit under disruption during recovery",
+        "Fail-safe by design": "-",
+        "Redundancy ": "-",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "X",
+        "Rapidity": "X",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Formula",
+        "Application & Scope": "Testing resillience metrics on a simple supply chain problem",
+        "Source name": "On metrics for supply chain resilience",
+        "Journal": "European Journal of Operational Research",
+        "Authors": "Golnar Behzadi, Michael Justin O\u2019Sullivan, Tava Lennon Olsen",
+        "Access Link": "https://www.sciencedirect.com/science/article/pii/S0377221720303933?ref=pdf_download&fr=RR-2&rr=88ea1b3a09ff95fc"
+    },
+    {
+        "Resilience Indicators": "Configuration redudancy",
+        "Description\n-\nWorking Principles": "How the manufacturing line or single operation is structured. Could be in series or parallel and with nodes being able to stand in for eachother for the system to fail safely",
+        "Fail-safe by design": "X",
+        "Redundancy ": "X",
+        "Reconfigurability": "-",
+        "Modularity/Mobility/Distributability": "-",
+        "Repurposability": "-",
+        "Flexibility": "-",
+        "Controllability ": "-",
+        "Reliability": "-",
+        "Recoverability/Restorability": "-",
+        "Rapidity": "-",
+        "Robustness": "-",
+        "Resourcefulness": "-",
+        "Sustainability": "-",
+        "Circularity": "-",
+        "Analytical": "X",
+        "Empirical": "-",
+        "Simulation/Optimization": "-",
+        "Prevention": "X",
+        "Detection": "-",
+        "Qualitative": "-",
+        "Quantitative": "X",
+        "Type of Assessment Framework (Excel tool, Web-based, Formula, etc.)": "Parallel and series connections",
+        "Application & Scope": "Developing a system for determining if a system is redudant and fail safe",
+        "Source name": "The Doctrine of Manifest Danger and its Relationship to Reliability, Preventive Maintenance and Fail-Safe Design",
+        "Journal": "ASME",
+        "Authors": "Ralph L. Barnett",
+        "Access Link": "http://www.triodyne.com/SAFETY~1/SB_V8N1.PDF"
+    }
+];
+
+
+
+
+    function loadTableData(items) {
+            const table = document.querySelector("#resilienceTable tbody");
+            items.forEach(item => {
+                let row = table.insertRow();
+                Object.values(item).forEach(text => {
+                    let cell = row.insertCell();
+                    let textNode = document.createTextNode(text);
+                    cell.appendChild(textNode);
+                });
+            });  
+        }
+        document.addEventListener("DOMContentLoaded", () => {
+            loadTableData(data);
+        });
+     
+
+function getCheckedCheckboxIds() {
+    const checkboxes = document.querySelectorAll('input[type="radio"]');
+    const checkboxData = [];
+
+  for (const checkbox of checkboxes) {
+    checkboxData.push({
+      id: checkbox.id,
+      name: checkbox.name,
+      value: checkbox.checked,
+    });
+  }
+  filterIndicators(checkboxData);
+}
+
+
+
+function filterIndicators(checkboxData) {
+  const tbody = document.querySelector("#resilienceTable tbody");
+  const rows = tbody.getElementsByTagName("tr");
+for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+    let showRow = [true, true, true, true];
+    let colID = -1;
+    for (item in checkboxData){
+        boxData=checkboxData[item];
+        if (boxData.value == true){
+            colID = propertyMap.get(boxData.id); 
+            if (boxData.name == "indicator-types"){
+                if(boxData.id == "all-indicator-types"){showRow[0]= true;}
+                else {showRow[0] = row.cells[colID].innerHTML === "X";}
+            }
+            else if (boxData.name == "indicator-model"){
+                if(boxData.id == "all-indicator-model"){showRow[1]= true;}    
+                else {showRow[1] = row.cells[colID].innerHTML === "X";} 
+            }
+            else if (boxData.name == "indicator-goal"){
+                if(boxData.id == "all-indicator-goal"){showRow[2]= true;}    
+                else {showRow[2] = row.cells[colID].innerHTML === "X";} 
+            }
+            else if (boxData.name == "indicator-method"){
+                if(boxData.id == "all-indicator-method"){showRow[3]= true;}    
+                else {showRow[3] = row.cells[colID].innerHTML === "X";} 
+            }
+        }
+    }
+    let showRowRule = showRow.every(element => element === true);
+    row.style.display = showRowRule ? "table-row" : "none";
+  }
+}
+
+function toggleColumns() {
+  tableId = "resilienceTable";
+  start = 2;
+  end = 23 ;
+  const table = document.getElementById(tableId);
+  const headerRow = Array.from(table.getElementsByTagName("tr"))[0]; // Convert to array and get first row
+  const dataRows = Array.from(table.getElementsByTagName("tr")).slice(1); // Convert to array and slice from second row
+
+  // Hide/show headers
+  for (let j = start; j < end; j++) {
+    headerRow.getElementsByTagName("th")[j].style.display = headerRow.getElementsByTagName("th")[j].style.display === "none" ? "table-cell" : "none";
+  }
+
+  // Hide/show data cells
+  for (let i = 0; i < dataRows.length; i++) {
+    const cells = dataRows[i].getElementsByTagName("td");
+    for (let j = start; j < end; j++) {
+      cells[j].style.display = cells[j].style.display === "none" ? "table-cell" : "none";
+    }
+  }
+}
+
+
+    </script>
+</body>
+</html>
