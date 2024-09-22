@@ -339,7 +339,7 @@ input[type="radio"] {
 <script type="text/javascript" src="resilienceTableData.json"></script>
 
 <script>
-
+loadJSONData();
 // With the above scripts loaded, you can call `tippy()` with a CSS
     // selector and a `content` prop:
         tippy("#fail-safe-text", {
@@ -524,6 +524,18 @@ function toggleColumns() {
       cells[j].style.display = cells[j].style.display === "none" ? "table-cell" : "none";
     }
   }
+}
+
+function loadJSONData() {
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', 'resilienceTableData.json', true); // Replace 'your-data.json' with the actual file path
+
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      const jsonData = JSON.parse(xhr.responseText);
+  };
+
+  xhr.send();
 }
 
 
