@@ -64,7 +64,7 @@ Bushagour A., Hassan H., Martiny T., Mansour R., Boudjadar J., Layton A., & Rama
 For any questions or feedback on this tool, contact one of the following authors: devr [AT] dtu [DOT] dk; amira [DOT] bushagour [AT] mpe [DOT] au [DOT] dk
    
 ## Disclaimer
-Artificial Intelligence (AI) based language tools were used to assist with the programming of this screening tool. No AI tools were used in the literature review process itself, including the formulation of the search terms, article screening, analysis, or categorization of sources.
+Artificial Intelligence (AI) based tools were used to assist with the programming of this screening tool. No AI tools were used in the literature review process itself, including the formulation of the search terms, article screening, analysis, or categorization of sources.
 
 ## Acknowledgements
 Funded by the European Union. This project has received funding from the European Union’s Horizon Europe research and innovation programme under the Grant Agreement n° 101138269. Views and opinions expressed are, however, those of the author(s) only and do not necessarily reflect those of the European Union or the European Research Executive Agency (REA). Neither the European Union nor the granting authority can be held responsible for them.
