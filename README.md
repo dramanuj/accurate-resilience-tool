@@ -10,7 +10,7 @@ This tool is hosted here: https://dramanuj.github.io/accurate-resilience-tool/in
 The tool is organised into two main areas:
 - Filter panel (top) — a search bar and four rows of clickable chip filters.
 - Results table (bottom) — a scrollable, sortable table showing the indicators that match your current filters.  
-A live counter between the two areas always tells you how many indicators are currently displayed out of the total dataset (e.g. "34 indicators shown (of 112)").
+A live counter between the two areas always tells you how many indicators are currently displayed out of the total dataset (e.g. "34 indicators shown (of 93)").
 All filters are additive across categories (an indicator must satisfy every active filter group) and inclusive within a category (selecting multiple chips in the same row returns indicators matching any of them).
 
 ### Text search
