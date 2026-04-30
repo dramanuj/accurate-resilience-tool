@@ -57,7 +57,7 @@ Each row represents one indicator and contains six columns:
 
 
 ## Citation
-Bushagour A., Hassan H., Martiny T., Mansour R., Boudjadar J., Layton A., & Ramanuan D. (2025) "A Systematic Review of Indicators for Assessing Manufacturing Resilience at the Factory Level". Anonymous Journal (in review)
+Bushagour A., Hassan H., Martiny T., Mansour R., Boudjadar J., Layton A., & Ramanujan D. (2025) "A Systematic Review of Indicators for Assessing Manufacturing Resilience at the Factory Level". Anonymous Journal (in review)
 
 
 ## Contact
