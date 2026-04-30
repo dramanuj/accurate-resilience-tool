@@ -2,6 +2,10 @@
 Resilience indicator screening tool developed in the EU-funded ACCCURATE project. This interactive, browser-based screening tool that lets you browse, filter, and sort resilience indicators extracted from the academic literature. Each indicator is linked to its source publication, resilience principle(s), indicator type, disruption stage, and disruption level.
 
 
+## Access:
+This tool is hosted here: https://dramanuj.github.io/accurate-resilience-tool/index.html
+
+
 ## Layout & Usage
 The tool is organised into two main areas:
 - Filter panel (top) — a search bar and four rows of clickable chip filters.
@@ -12,18 +16,18 @@ All filters are additive across categories (an indicator must satisfy every acti
 ### Text search
 The search bar at the top left performs a free-text search across indicator names, descriptions, author names, publication titles, and citation keys. Results update as you type.
 
-### Resilience Principle
+### Resilience principle
 The tool lists every resilience principle present in the dataset (e.g. Redundancy, Robustness, Flexibility, Recoverability, Resourcefulness, etc.). Click one or more buttons to restrict the table to indicators tagged with those principles.
 - Hide N/A checkbox — When ticked, indicators that have no assigned principle (N/A) are removed from the results. Useful when you only want principle-mapped indicators.
 
-### Indicator Type
+### Indicator yype
 Three types: Topological, Attributional, and Performance.
 - Exact match only checkbox: By default, the filter uses partial/substring matching so that combined types (e.g. "Topological/Performance") appear when either constituent type is selected. Ticking the exact match only restricts results to indicators whose type string matches the selected button exactly.
 
-### Resilience Stage
+### Resilience stage
 Four buttons represent the temporal phases of a disruption: Pre-Disruption, System Decline, Recovery, and Post-Disruption. Select one or more to focus on a specific phase.
 
-### Disruption Level
+### Disruption level
 Six buttons representing the scale at which the indicator has been validated: Machine, Operation, Enterprise, Market, Society, and No Validation Case. The last option captures indicators that were proposed theoretically without an empirical validation case.
 
 ### Active filter tags
