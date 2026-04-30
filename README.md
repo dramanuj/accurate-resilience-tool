@@ -50,10 +50,10 @@ Each row represents one indicator and contains six columns:
 
 
 ### Example workflows
-"Which performance indicators exist for the recovery phase?" → Click the Performance button under Indicator Type, then click Recovery under Resilience Stage.
-"Show me all indicators related to Redundancy or Flexibility, excluding unvalidated ones" → Click Redundancy and Flexibility under Resilience Principle, then click No Validation Case is not what you want — instead, avoid selecting it under Disruption Level and leave that filter group empty. All disruption levels will be shown, including validated ones.
-"Find indicators from a specific author" → Type the author's surname into the search bar.
-"I only want strictly Topological indicators, not mixed types like Topological/Performance" → Click Topological under Indicator Type and tick the Exact match only checkbox.
+- "Which performance indicators exist for the recovery phase?" → Click the Performance button under Indicator Type, then click Recovery under Resilience Stage.
+- "Show me all indicators related to Redundancy or Flexibility, excluding unvalidated ones" → Click Redundancy and Flexibility under Resilience Principle, then click No Validation Case is not what you want — instead, avoid selecting it under Disruption Level and leave that filter group empty. All disruption levels will be shown, including validated ones.
+- "Find indicators from a specific author" → Type the author's surname into the search bar.
+- "I only want strictly Topological indicators, not mixed types like Topological/Performance" → Click Topological under Indicator Type and tick the Exact match only checkbox.
 
 
 ## Citation
