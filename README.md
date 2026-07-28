@@ -1,5 +1,5 @@
 # SCREENING TOOL FOR FACTORY-LEVEL RESILIENCE INDICATORS
-Resilience indicator screening tool developed in the EU-funded ACCCURATE project. This interactive, browser-based screening tool that lets you browse, filter, and sort resilience indicators extracted from the academic literature. Each indicator is linked to its source publication, resilience principle(s), indicator type, disruption stage, and disruption level.
+A resilience indicator screening tool developed as part of the EU-funded ACCURATE project. This interactive, browser-based tool lets you browse, filter, and sort resilience indicators extracted from the academic literature. Each indicator is linked to its source publication, resilience principle(s), indicator type, disruption stage, and disruption level.
 
 
 ## Access:
@@ -20,9 +20,9 @@ The search bar at the top left performs a free-text search across indicator name
 The tool lists every resilience principle present in the dataset (e.g. Redundancy, Robustness, Flexibility, Recoverability, Resourcefulness, etc.). Click one or more buttons to restrict the table to indicators tagged with those principles.
 - Hide N/A checkbox — When ticked, indicators that have no assigned principle (N/A) are removed from the results. Useful when you only want principle-mapped indicators.
 
-### Indicator yype
+### Indicator type
 Three types: Topological, Attributional, and Performance.
-- Exact match only checkbox: By default, the filter uses partial/substring matching so that combined types (e.g. "Topological/Performance") appear when either constituent type is selected. Ticking the exact match only restricts results to indicators whose type string matches the selected button exactly.
+- Exact match only checkbox: By default, the filter uses partial/substring matching so that combined types (e.g. "Topological/Performance") appear when either constituent type is selected. Ticking the Exact match only checkbox restricts results to indicators whose type string matches the selected button exactly.
 
 ### Resilience stage
 Four buttons represent the temporal phases of a disruption: Pre-Disruption, System Decline, Recovery, and Post-Disruption. Select one or more to focus on a specific phase.
@@ -51,7 +51,7 @@ Each row represents one indicator and contains six columns:
 
 ### Example workflows
 - "Which performance indicators exist for the recovery phase?" → Click the Performance button under Indicator Type, then click Recovery under Resilience Stage.
-- "Show me all indicators related to Redundancy or Flexibility, excluding unvalidated ones" → Click Redundancy and Flexibility under Resilience Principle, then click No Validation Case is not what you want — instead, avoid selecting it under Disruption Level and leave that filter group empty. All disruption levels will be shown, including validated ones.
+- "Show me all indicators related to Redundancy or Flexibility, excluding unvalidated ones" → Click Redundancy and Flexibility under Resilience Principle. Avoid selecting No Validation Case under Disruption Level, and leave that filter group empty — all disruption levels will then be shown, including validated ones.
 - "Find indicators from a specific author" → Type the author's surname into the search bar.
 - "I only want strictly Topological indicators, not mixed types like Topological/Performance" → Click Topological under Indicator Type and tick the Exact match only checkbox.
 
@@ -64,7 +64,7 @@ Bushagour A., Hassan H., Martiny T., Mansour R., Boudjadar J., Layton A., & Rama
 For any questions or feedback on this tool, contact one of the following authors: devr [AT] dtu [DOT] dk; amira [DOT] bushagour [AT] mpe [DOT] au [DOT] dk
    
 ## Disclaimer
-Artificial Intelligence (AI) based tools were used to assist with the programming of this screening tool. No AI tools were used in the literature review process itself, including the formulation of the search terms, article screening, analysis, or categorization of sources.
+Artificial Intelligence (AI) based tools were used to assist with the programming of this screening tool. No AI tools were used in the literature review process itself, including the formulation of the search terms, article screening, analysis, or categorisation of sources.
 
 ## Acknowledgements
 Funded by the European Union. This project has received funding from the European Union’s Horizon Europe research and innovation programme under the Grant Agreement n° 101138269. Views and opinions expressed are, however, those of the author(s) only and do not necessarily reflect those of the European Union or the European Research Executive Agency (REA). Neither the European Union nor the granting authority can be held responsible for them.
