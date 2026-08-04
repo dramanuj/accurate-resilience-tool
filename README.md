@@ -56,6 +56,54 @@ Each row represents one indicator and contains six columns:
 - "I only want strictly Topological indicators, not mixed types like Topological/Performance" → Click Topological under Indicator Type and tick the Exact match only checkbox.
 
 
+# Submitting a New Resilience Indicator
+
+The Resilience Indicators Explorer draws on a structured database, and every entry follows the same fields and controlled vocabularies so that filtering, sorting, and searching work consistently across the tool. If you would like to propose a new indicator for inclusion, please  prepare the indicator using the fields and allowed values below and email it to the authors.
+
+Please structure each new indicator as a single JSON object using the fields and controlled terms below, and send it to me by email. Do not edit the tool directly.
+
+## Fields and controlled terms
+
+- **`indicator`** (text) – A short, descriptive name for the indicator.
+- **`description`** (text) – One or two sentences explaining what the indicator measures.
+- **`indicator_type`** (choose one) – `Topological`, `Attributional`, `Performance`.
+- **`method`** (text) – A brief description of how the indicator is measured or calculated (e.g. "Survey of floor layout").
+- **`stage`** (choose one) – `Pre-Disruption`, `System Decline`, `Recovery`, `Post-Disruption`.
+- **`principles`** (list — choose one or more) – `Flexibility`, `Growth`, `Modularity`, `Reconfigurability`, `Recoverability`, `Redundancy`, `Reliability`, `Resourcefullness`, `Robustness`, `Safety`, `Financial Loss`. If none apply, use `["N/A"]`.
+- **`disruption_levels`** (list — choose one or more) – `Machine`, `Operation`, `Enterprise`, `Market`, `Society`. If the indicator has not been tested against a specific disruption case, use `["No Validation Case"]`.
+- **`cite_key`** (text) – A short citation key for the source, typically `authorYYYY` (e.g. `smith2023`).
+- **`title`** (text) – Title of the source publication.
+- **`author`** (text) – Author names, joined with " and " (e.g. `Smith, John and Lee, Kim`).
+- **`year`** (text) – Publication year.
+- **`journal`** (text) – Journal or venue name.
+- **`doi`** (text) – DOI of the publication, if available.
+- **`url`** (text) – A direct link to the publication (used if no DOI is available).
+
+Please keep entries within these existing controlled terms rather than introducing new ones, so the indicator fits into the current filtering structure. If you feel a new term or category is genuinely needed, flag this separately in your email so it can be considered before being added.
+
+## Example submission
+
+```json
+{
+  "indicator": "Recovery Time Ratio",
+  "description": "The ratio of actual recovery time to the target recovery time defined for a process following a disruption.",
+  "indicator_type": "Performance",
+  "method": "Calculated from operational logs comparing planned versus actual recovery duration.",
+  "stage": "Recovery",
+  "principles": ["Recoverability", "Robustness"],
+  "cite_key": "smith2023",
+  "title": "Measuring Recovery Performance in Manufacturing Systems",
+  "author": "Smith, John and Lee, Kim",
+  "year": "2023",
+  "journal": "Journal of Manufacturing Systems",
+  "doi": "10.1016/j.jmsy.2023.01.001",
+  "url": "https://doi.org/10.1016/j.jmsy.2023.01.001",
+  "disruption_levels": ["Operation", "Enterprise"]
+}
+```
+
+
+
 ## Citation
 Bushagour A., Hassan H., Martiny T., Mansour R., Boudjadar J., Layton A., & Ramanujan D. (2025) "A Systematic Review of Indicators for Assessing Manufacturing Resilience at the Factory Level". Anonymous Journal (in review)
 
